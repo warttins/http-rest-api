@@ -1,13 +1,15 @@
 const http = require('node:http')
-
-const products = require('./mocks/products')
+const routes = require('./routes')
 
 const server = http.createServer((request, response) => {
-  console.log(`Request method: ${request.method} | ${request.url}`)
+  console.log(`Request method: ${request.method} | Endpoint: ${request.url}`)
 
-  if (request.url === '/products' && request.method === 'GET') {
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify({products}))
+  const route = routes.find((routeObject) => (
+    routeObject.endpoint === request.url && routeObject.method === request.method
+  ))
+
+  if (route) {
+    route.handler(request, response)
   } else {
     response.writeHead(404, { 'Content-Type': 'text/html' })
     response.end(`Cannot ${request.method} ${request.url}`)

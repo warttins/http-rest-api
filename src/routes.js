@@ -1,10 +1,10 @@
-const productController = require("./controllers/ProductController");
+const ProductController = require("./controllers/ProductController");
 
 const routes = [
   {
     endpoint: '/products',
     method: 'GET',
-    handler: productController.listProducts,
+    handler: ProductController.listProducts,
   },
 ]
 
