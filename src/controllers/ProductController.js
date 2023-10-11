@@ -20,11 +20,10 @@ const ProductController = {
     const productNotFound = !filteredProduct
 
     if (productNotFound) {
-      response.send(400, { error: 'Product not found'})
-
-    } else {
-      response.send(200, filteredProduct)
+      return response.send(400, { error: 'Product not found'})
     }
+
+    response.send(200, filteredProduct)
   }
 }
 
