@@ -13,6 +13,20 @@ const ProductController = {
   
     response.writeHead(200, { 'Content-Type': 'application/json' })
     response.end(JSON.stringify(sortedProducts))
+  },
+
+  getProductsById(request, response) {
+    const { id } = request.params
+    const filteredProduct = products.find((product) => product.id === Number(id))
+    const productNotFound = !filteredProduct
+
+    if (productNotFound) {
+      response.writeHead(400, { 'Content-Type': 'application/json' })
+      response.end(JSON.stringify({ error: 'Product not found'}))
+    } else {
+      response.writeHead(200, { 'Content-Type': 'application/json' })
+      response.end(JSON.stringify(filteredProduct))
+    }
   }
 }
 

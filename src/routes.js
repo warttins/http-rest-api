@@ -6,6 +6,12 @@ const routes = [
     method: 'GET',
     handler: ProductController.listProducts,
   },
+
+  {
+    endpoint: '/products/:id',
+    method: 'GET',
+    handler: ProductController.getProductsById,
+  }
 ]
 
 module.exports = routes
