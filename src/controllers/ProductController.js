@@ -11,8 +11,7 @@ const ProductController = {
       return a.id > b.id ? 1 : -1
     })
   
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify(sortedProducts))
+    response.send(200, sortedProducts)
   },
 
   getProductsById(request, response) {
@@ -21,11 +20,10 @@ const ProductController = {
     const productNotFound = !filteredProduct
 
     if (productNotFound) {
-      response.writeHead(400, { 'Content-Type': 'application/json' })
-      response.end(JSON.stringify({ error: 'Product not found'}))
+      response.send(400, { error: 'Product not found'})
+
     } else {
-      response.writeHead(200, { 'Content-Type': 'application/json' })
-      response.end(JSON.stringify(filteredProduct))
+      response.send(200, filteredProduct)
     }
   }
 }
