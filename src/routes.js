@@ -11,6 +11,12 @@ const routes = [
     endpoint: '/products/:id',
     method: 'GET',
     handler: ProductController.getProductsById,
+  },
+
+  {
+    endpoint: '/products',
+    method: 'POST',
+    handler: ProductController.createProduct,
   }
 ]
 
