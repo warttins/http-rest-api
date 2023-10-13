@@ -24,7 +24,29 @@ const ProductController = {
     }
 
     response.send(200, filteredProduct)
-  }
+  },
+
+  createProduct(request, response) {
+    let body = ''
+
+    request.on('data', (chunk) => {
+      body += chunk
+    })
+
+    request.on('end', () => {
+      body = JSON.parse(body)
+
+      const lastProductId = products[products.length - 1].id
+      const newProduct = {
+        id: lastProductId + 1,
+        name: body.name,
+        price: body.price,
+      }
+
+      products.push(newProduct)
+      response.send(201, newProduct)
+    })
+  },
 }
 
 module.exports = ProductController
