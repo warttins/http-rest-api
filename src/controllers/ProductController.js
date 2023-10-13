@@ -1,7 +1,7 @@
 const products = require('../mocks/products')
 
 const ProductController = {
-  listProducts(request, response) {
+    listProducts(request, response) {
     const { order } = request.query
     const sortedProducts = products.sort((a, b) => {
       if (order === 'desc') {
@@ -27,26 +27,18 @@ const ProductController = {
   },
 
   createProduct(request, response) {
-    let body = ''
+    const { body } = request
 
-    request.on('data', (chunk) => {
-      body += chunk
-    })
+    const lastProductId = products[products.length - 1].id
+    const newProduct = {
+      id: lastProductId + 1,
+      name: body.name,
+      price: body.price,
+    }
 
-    request.on('end', () => {
-      body = JSON.parse(body)
-
-      const lastProductId = products[products.length - 1].id
-      const newProduct = {
-        id: lastProductId + 1,
-        name: body.name,
-        price: body.price,
-      }
-
-      products.push(newProduct)
-      response.send(201, newProduct)
-    })
-  },
+    products.push(newProduct)
+    response.send(201, newProduct)
+  }
 }
 
 module.exports = ProductController

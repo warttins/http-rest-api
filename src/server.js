@@ -1,6 +1,7 @@
 const http = require('node:http')
 const { URL } = require('url')
 const routes = require('./routes')
+const bodyParser = require('./helpers/bodyParser')
 
 const server = http.createServer((request, response) => {
   const parsedURL = new URL(`http://${request.headers.host}${request.url}`)
@@ -22,7 +23,7 @@ const server = http.createServer((request, response) => {
       routeObject.endpoint === pathname && routeObject.method === request.method
     ))
     
-    if (route) {
+  if (route) {
     request.query = Object.fromEntries(parsedURL.searchParams)
     request.params = { id }
 
@@ -31,7 +32,11 @@ const server = http.createServer((request, response) => {
       response.end(JSON.stringify(body))
     }
 
-    route.handler(request, response)
+    if(['POST', 'PUT'].includes(request.method)) {
+      bodyParser(request, () => route.handler(request, response))
+    } else {
+      route.handler(request, response)
+    }
   } else {
     response.writeHead(404, { 'Content-Type': 'text/html' })
     response.end(`Cannot ${request.method} ${pathname}`)
