@@ -1,4 +1,4 @@
-const products = require('../mocks/products')
+let products = require('../mocks/products')
 
 const ProductController = {
     listProducts(request, response) {
@@ -20,7 +20,7 @@ const ProductController = {
     const productNotFound = !filteredProduct
 
     if (productNotFound) {
-      return response.send(400, { error: 'Product not found'})
+      return response.send(400, { error: 'Product not found' })
     }
 
     response.send(200, filteredProduct)
@@ -38,6 +38,33 @@ const ProductController = {
 
     products.push(newProduct)
     response.send(201, newProduct)
+  },
+
+  updateProduct(request, response) {
+    const { id } = request.params
+    const { name, price } = request.body
+
+    const filteredProduct = products.find((product) => product.id === Number(id))
+    const productNotFound = !filteredProduct
+
+    if (productNotFound) {
+      return response.send(400, { error: 'Product not found' })
+    } 
+
+    products = products.map((product) => {
+      if (product.id === Number(id)) {
+        return {
+          ...product,
+          name,
+          price
+        }
+      }
+
+      return product
+    })
+
+    response.send(202, { name, price })
+    
   }
 }
 
