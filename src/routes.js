@@ -23,6 +23,12 @@ const routes = [
     endpoint: '/products/:id',
     method: 'PUT',
     handler: ProductController.updateProduct,
+  },
+
+  {
+    endpoint: '/products/:id',
+    method: 'DELETE',
+    handler: ProductController.deleteProduct,
   }
 ]
 

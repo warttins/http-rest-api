@@ -64,7 +64,15 @@ const ProductController = {
     })
 
     response.send(202, { name, price })
-    
+  },
+
+  deleteProduct(request, response) {
+    const { id } = request.params
+
+    const newProductsList = products.filter((product) => product.id !== Number(id))
+    products = newProductsList
+
+    response.send(204, { message: 'Product successfully removed'})
   }
 }
 
